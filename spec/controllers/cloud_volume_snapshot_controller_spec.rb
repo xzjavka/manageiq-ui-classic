@@ -49,12 +49,15 @@ describe CloudVolumeSnapshotController do
   end
 
   describe "#delete" do
+    let(:host)       { FactoryGirl.create(:host) }	  
     before do
       stub_user(:features => :all)
       EvmSpecHelper.create_guid_miq_server_zone
       @ems = FactoryGirl.create(:ems_openstack)
       @snapshot = FactoryGirl.create(:cloud_volume_snapshot_openstack,
                                      :ext_management_system => @ems)
+      allow(controller).to receive(:find_checked_items).and_return([host_id])
+
     end
 
     context "#delete" do
@@ -82,4 +85,13 @@ describe CloudVolumeSnapshotController do
       end
     end
   end
+
+ describe "delete_cloud_volume_snapshots" do
+  it "What is there" do
+     
+  end
+ end
 end
+
+
+
