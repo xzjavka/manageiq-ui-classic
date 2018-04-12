@@ -36,8 +36,9 @@ class CloudVolumeSnapshotController < ApplicationController
   def delete_cloud_volume_snapshots
     assert_privileges("cloud_volume_snapshot_delete")
 
+    binding.pry
     snapshots = if @lastaction == "show_list" || (@lastaction == "show" && @layout != "cloud_volume_snapshot")
-                  find_checked_ids_with_rbac(CloudVolumeSnapshot)
+		  find_checked_ids_with_rbac(CloudVolumeSnapshot)
                 else
                   [find_id_with_rbac(CloudVolumeSnapshot, params[:id])]
                 end
