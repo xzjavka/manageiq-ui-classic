@@ -56,7 +56,7 @@ describe CloudVolumeSnapshotController do
       @ems = FactoryGirl.create(:ems_openstack)
       @snapshot = FactoryGirl.create(:cloud_volume_snapshot_openstack,
                                      :ext_management_system => @ems)
-      allow(controller).to receive(:find_checked_items).and_return([host_id])
+      allow(controller).to receive(:find_checked_items).and_return([host.id])
 
     end
 
@@ -86,12 +86,23 @@ describe CloudVolumeSnapshotController do
     end
   end
 
- describe "delete_cloud_volume_snapshots" do
-  it "What is there" do
-     
+  describe "#delete_cloud_volume_snapshots" do
+    let(:admin_user) { FactoryGirl.create(:user, :role => "super_administrator") }
+    let(:snapshot)       { FactoryGirl.create(:cloud_volume_snapshot) }
+    before do
+      EvmSpecHelper.create_guid_miq_server_zone
+
+      login_as admin_user
+      allow(User).to receive(:current_user).and_return(admin_user)
+      allow(controller).to receive(:assert_privileges)
+      allow(controller).to receive(:render_flash)
+      controller.instance_variable_set(:@_params, {:id=> snapshot.id, :pressed => 'host_NECO'})
+    end
+
+    it "testing " do
+      expect(controller).to receive(:process_cloud_volume_snapshots).with([snapshot],"destroy")
+      controller.send(:delete_cloud_volume_snapshots)
+    end
   end
  end
-end
-
-
 
