@@ -100,7 +100,7 @@ describe CloudVolumeSnapshotController do
     end
 
     it "testing " do
-      expect(controller).to receive(:process_cloud_volume_snapshots).with([snapshot],"destroy")
+      allow(controller).to receive(:process_cloud_volume_snapshots).with([snapshot],"destroy")
       controller.send(:delete_cloud_volume_snapshots)
     end
   end
