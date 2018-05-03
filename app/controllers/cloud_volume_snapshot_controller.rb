@@ -47,8 +47,7 @@ class CloudVolumeSnapshotController < ApplicationController
                # end
 
     snapshots_to_delete = []
-    snapshots.each do |snapshot_id|
-      snapshot = CloudVolumeSnapshot.find_by_id(snapshot_id)
+    snapshots.each do |snapshot|
       if snapshot.nil?
         add_flash(_("Cloud Volume Snapshot no longer exists."), :error)
       else
